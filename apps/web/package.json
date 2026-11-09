@@ -1,0 +1,45 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p ${WEB_PORT:-3000}",
+    "build": "NODE_ENV=production next build",
+    "start": "next start -p ${WEB_PORT:-3000}",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "check:routes": "node --env-file-if-exists=../../.env scripts/check-routes.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.2",
+    "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@zitaware/config": "*",
+    "@zitaware/contracts": "*",
+    "@zitaware/ui": "*",
+    "@reduxjs/toolkit": "^2.5.0",
+    "@tanstack/react-query": "^5.62.0",
+    "@trpc/client": "^11.0.0",
+    "@trpc/react-query": "^11.0.0",
+    "antd": "^5.22.0",
+    "dayjs": "^1.11.21",
+    "next": "16.2.12",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-redux": "^9.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,23 @@
+node_modules/
+.next/
+dist/
+packages/database/generated/
+.turbo/
+apps/api/src/package-reload.ts
+coverage/
+*.log
+*.tsbuildinfo
+.env
+.env.production
+.env.*.local
+.DS_Store
+
+# Immutable UI reference baseline kept on disk, not in git history.
+references/ui/
+
+# Claude Code harness session artifacts.
+.claude/
+
+# Playwright run artefacts (apps/web e2e).
+test-results/
+playwright-report/

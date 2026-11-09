@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "@zitaware/ui/theme/tailwind-theme.css";
+
+/*
+ * Tailwind v4's automatic content detection only walks this app's own
+ * directory tree — it never discovers classes used exclusively inside a
+ * sibling workspace package. Without this, every Tailwind class used only
+ * in packages/ui/src (responsive variants, arbitrary grid/height values,
+ * icon sizing, etc.) silently generates no CSS at all, while the page
+ * still partially "looks right" because AntD's own component-level theme
+ * tokens (Layout/Menu dark background, etc.) independently cover part of
+ * the same area — masking the gap until inspected closely.
+ */
+@source "../../../../packages/ui/src";
+
+/*
+ * Font stacks per docs/15-ui-design-system.md section 6.1: the Zitaware
+ * brand typeface, Plus Jakarta Sans, for both roles (ADR-191). next/font
+ * self-hosts it and sets --font-jakarta on <html> (app/layout.tsx). There is
+ * no separate monospace/numeric family beyond what tabular-nums already
+ * provides; docs/15 6.3 only requires tabular numerals for table amounts.
+ */
+:root {
+  --font-display:
+    var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-body:
+    var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+::selection {
+  background: var(--color-highlight);
+  color: var(--color-ink);
+}
+
+/*
+ * Active sidebar item: docs/15 §8.2 — ink-2 background (AntD Menu token)
+ * plus a 3px brand-yellow bar on the left edge.
+ */
+.ant-menu-dark .ant-menu-item-selected {
+  box-shadow: inset 3px 0 0 var(--color-highlight);
+}
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: var(--color-app);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/*
+ * Sidebar scrollbar.
+ *
+ * The nav sits on `--ui-ink`, and a default OS scrollbar renders a light
+ * track against it — a bright stripe down the edge of a dark panel. It is
+ * also the only scroll area in the shell the user sees constantly, so it is
+ * kept thin and low-contrast until pointed at.
+ *
+ * Firefox gets `scrollbar-*`; WebKit/Blink get the pseudo-elements. Both are
+ * scoped to this one element rather than applied globally, so tables, drawers
+ * and the page itself keep the platform scrollbar users expect.
+ */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/*
+ * Pointer cursor on interactive elements.
+ *
+ * Tailwind v4's Preflight stopped forcing `cursor: pointer` on buttons — it
+ * defers to the browser default, which is `cursor: default`. Every button in
+ * this app therefore lost its pointer, which reads as "not clickable" on
+ * exactly the controls that are. Restored here once rather than as a
+ * `cursor-pointer` class repeated on every button, so a new button is correct
+ * by default instead of only when someone remembers.
+ *
+ * `:disabled` is excluded and given `not-allowed`, matching what Ant Design
+ * already does for its own buttons so the two sets agree.
+ */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+label[for],
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[role='button'][aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+/*
+ * Browser autofill background.
+ *
+ * Chrome paints autofilled inputs light blue via a UA `!important` rule.
+ * On a bare AntD Input that tints the whole box, but on an affix input
+ * (Input.Password, anything with a prefix/suffix) only the inner <input> is
+ * tinted while the wrapper and icon stay white — a blue strip inside a white
+ * field, as on the login form. The UA rule can't be overridden, so the
+ * background change is deferred with a transition long enough never to run.
+ * Box-shadow is deliberately not used for this, since AntD's focus ring
+ * (`activeShadow`) lives on that property.
+ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--color-text);
+  transition: background-color 600000s 0s;
+}
+
+@keyframes lead-won-alert-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-brand) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-brand) 0%, transparent);
+  }
+}
+
+@keyframes lead-won-dot-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.72);
+    opacity: 0.45;
+  }
+}
+
+.lead-won-alert {
+  animation: lead-won-alert-pulse 1.6s ease-out infinite;
+}
+
+.lead-won-alert-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-brand);
+  animation: lead-won-dot-pulse 1.2s ease-in-out infinite;
+  flex: none;
+}
+
+/* Dashboard charts and tiles. Series colours were run through the dataviz
+   palette validator against the white card surface (categorical pair, and
+   one-hue ordinal ramps for ageing). */
+.viz-root {
+  --viz-in: #2a78d6;
+  --viz-out: #eb6834;
+  --viz-income: #1baf7a;
+  --viz-age-blue-1: #86b6ef;
+  --viz-age-blue-2: #5598e7;
+  --viz-age-blue-3: #2a78d6;
+  --viz-age-blue-4: #1c5cab;
+  --viz-age-blue-5: #104281;
+  --viz-age-orange-1: #f2a47a;
+  --viz-age-orange-2: #ee8044;
+  --viz-age-orange-3: #d85a24;
+  --viz-age-orange-4: #ad4519;
+  --viz-age-orange-5: #7f3211;
+}
+
+@keyframes viz-grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes viz-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes viz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.viz-grow-y {
+  transform-origin: bottom;
+  animation: viz-grow-y 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.viz-grow-x {
+  transform-origin: left;
+  animation: viz-grow-x 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.viz-rise {
+  animation: viz-rise 0.45s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viz-grow-y,
+  .viz-grow-x,
+  .viz-rise {
+    animation: none;
+  }
+}

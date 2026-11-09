@@ -1,0 +1,37 @@
+module.exports = {
+  apps: [
+    {
+      name: 'zitaware-crm-web',
+      cwd: './apps/web',
+      script: 'npm',
+      args: 'run start',
+      env_production: { NODE_ENV: 'production' },
+      autorestart: true,
+      max_memory_restart: '1G',
+      kill_timeout: 15000,
+      time: true,
+    },
+    {
+      name: 'zitaware-crm-api',
+      cwd: './apps/api',
+      script: 'npm',
+      args: 'run start:prod',
+      env_production: { NODE_ENV: 'production' },
+      autorestart: true,
+      max_memory_restart: '1G',
+      kill_timeout: 15000,
+      time: true,
+    },
+    {
+      name: 'zitaware-crm-worker',
+      cwd: './apps/worker',
+      script: 'npm',
+      args: 'run start:prod',
+      env_production: { NODE_ENV: 'production' },
+      autorestart: true,
+      max_memory_restart: '1G',
+      kill_timeout: 30000,
+      time: true,
+    },
+  ],
+};

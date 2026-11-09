@@ -1,0 +1,42 @@
+{
+  "name": "@zitaware/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:integration": "vitest run --passWithNoTests",
+    "prisma:generate": "prisma generate",
+    "prisma:assert-shadow-safe": "node scripts/assert-shadow-database-safe.mjs",
+    "prisma:migrate:dev": "npm run prisma:assert-shadow-safe && prisma migrate dev",
+    "prisma:migrate:diff": "npm run prisma:assert-shadow-safe && prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url \"$SHADOW_DATABASE_URL\" --script",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@zitaware/config": "*",
+    "@prisma/client": "^6.1.0",
+    "uuidv7": "^1.0.2"
+  },
+  "devDependencies": {
+    "argon2": "^0.41.0",
+    "prisma": "^6.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}

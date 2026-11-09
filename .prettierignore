@@ -1,0 +1,9 @@
+node_modules
+.next
+dist
+.turbo
+coverage
+references/
+docs/
+package-lock.json
+packages/database/prisma/data/

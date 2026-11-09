@@ -1,0 +1,57 @@
+{
+  "name": "zitaware-crm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zitaware CRM monorepo — modular monolith CRM/ERP for Zitaware Solutions: project management, CRM, finance, HR/payroll, assets/inventory, banking and introducer-fee tracking.",
+  "packageManager": "npm@11.16.0",
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "build:backend": "turbo run build --filter=api --filter=worker",
+    "start:api": "node --env-file=.env apps/api/dist/main",
+    "start:worker": "node --env-file=.env apps/worker/dist/main.js",
+    "dev:web": "npm --workspace apps/web run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:integration": "turbo run test:integration",
+    "prisma:generate": "npm --workspace @zitaware/database run prisma:generate",
+    "prisma:migrate:deploy": "npm --workspace @zitaware/database run prisma:migrate:deploy",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0",
+    "prettier": "^3.4.0",
+    "eslint": "^9.17.0",
+    "@swc/cli": "^0.8.1",
+    "@swc/core": "^1.10.0"
+  },
+  "license": "UNLICENSED",
+  "overrides": {
+    "postcss": "8.5.24"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/engines@6.19.3": true,
+    "@swc/core@1.15.46": true,
+    "esbuild@0.28.1": true,
+    "esbuild@0.21.5": true,
+    "prisma@6.19.3": true,
+    "sharp@0.34.5": true,
+    "unrs-resolver@1.12.2": true,
+    "fsevents@2.3.3": true,
+    "fsevents@2.3.2": true,
+    "argon2@0.41.1": true
+  }
+}

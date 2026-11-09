@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node10",
+    "ignoreDeprecations": "5.0",
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["src"]
+}

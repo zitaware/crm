@@ -1,0 +1,93 @@
+/*
+ * Canonical UI tokens — docs/15-ui-design-system.md section 5.3, recoloured
+ * to the Zitaware Solutions brand (ADR-191): navy ink, brand blue for
+ * actions, brand yellow for highlights. This is the single source of
+ * truth — do not repeat these hex values inside feature components.
+ */
+:root {
+  --ui-ink: #0a1b4d;
+  --ui-ink-2: #13296b;
+  --ui-ink-3: #1d3a8a;
+  --ui-paper: #f5f7fa;
+  --ui-surface: #ffffff;
+  --ui-line: #e3e8f0;
+  --ui-line-2: #eef1f5;
+  --ui-text: #1e293b;
+  --ui-muted: #5b6a82;
+  --ui-muted-2: #94a3bb;
+  --ui-brand: #0f5bff;
+  --ui-brand-hover: #0b4de0;
+  --ui-brand-dark: #083db5;
+  --ui-brand-soft: #e8efff;
+  --ui-highlight: #ffc700;
+  --ui-highlight-soft: #fff6d1;
+  --ui-amber: #ff8a00;
+  /* Edge colour of the auth hero artwork, so the panel around it is seamless. */
+  --ui-hero: #00133a;
+  --ui-positive: #1f7a52;
+  --ui-positive-soft: #e4f3ec;
+  --ui-negative: #b23b3b;
+  --ui-negative-soft: #f7e6e6;
+  --ui-warning: #b07d1a;
+  --ui-warning-soft: #f8efd9;
+  --ui-information: #2c6390;
+  --ui-information-soft: #e4eef6;
+  --ui-purple: #6b4d9e;
+  --ui-purple-soft: #ece5f6;
+  --ui-row-hover: #fafbfc;
+  --ui-sidebar-text: #c3cce0;
+  --ui-sidebar-group: #8391b4;
+  --ui-radius: 7px;
+  --ui-radius-sm: 5px;
+  --ui-shadow:
+    0 1px 2px rgb(10 27 77 / 6%),
+    0 1px 3px rgb(10 27 77 / 4%);
+  --ui-shadow-pop: 0 8px 28px rgb(10 27 77 / 16%);
+  --ui-sidebar-width: 252px;
+  --ui-topbar-height: 56px;
+}
+
+/*
+ * Tailwind v4 CSS-first theme mapping — exposes the semantic utility
+ * names required by docs/15 section 7.3 (bg-app, bg-surface, text-ink,
+ * text-muted, border-ui, text-positive, bg-brand-soft, etc.).
+ */
+@theme inline {
+  --color-app: var(--ui-paper);
+  --color-surface: var(--ui-surface);
+  --color-ink: var(--ui-ink);
+  --color-ink-2: var(--ui-ink-2);
+  --color-ink-3: var(--ui-ink-3);
+  --color-text: var(--ui-text);
+  --color-muted: var(--ui-muted);
+  --color-muted-2: var(--ui-muted-2);
+  --color-ui: var(--ui-line);
+  --color-ui-2: var(--ui-line-2);
+  --color-brand: var(--ui-brand);
+  --color-brand-hover: var(--ui-brand-hover);
+  --color-brand-dark: var(--ui-brand-dark);
+  --color-brand-soft: var(--ui-brand-soft);
+  --color-highlight: var(--ui-highlight);
+  --color-highlight-soft: var(--ui-highlight-soft);
+  --color-amber: var(--ui-amber);
+  --color-hero: var(--ui-hero);
+  --color-positive: var(--ui-positive);
+  --color-positive-soft: var(--ui-positive-soft);
+  --color-negative: var(--ui-negative);
+  --color-negative-soft: var(--ui-negative-soft);
+  --color-warning: var(--ui-warning);
+  --color-warning-soft: var(--ui-warning-soft);
+  --color-information: var(--ui-information);
+  --color-information-soft: var(--ui-information-soft);
+  --color-purple: var(--ui-purple);
+  --color-purple-soft: var(--ui-purple-soft);
+  --color-row-hover: var(--ui-row-hover);
+  --color-sidebar-text: var(--ui-sidebar-text);
+  --color-sidebar-group: var(--ui-sidebar-group);
+
+  --radius-ui: var(--ui-radius);
+  --radius-ui-sm: var(--ui-radius-sm);
+
+  --shadow-ui: var(--ui-shadow);
+  --shadow-ui-pop: var(--ui-shadow-pop);
+}
