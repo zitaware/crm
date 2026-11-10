@@ -64,81 +64,99 @@ export function Topbar({
 
       <div className="flex items-center gap-[7px] text-[12.5px] text-muted">{breadcrumb}</div>
 
-      <div className="ml-auto hidden w-[340px] min-[980px]:block">{search}</div>
+      {/* Right-hand group. ml-auto lives here, not on the search box: the box is
+          hidden below 980px, and with it gone the bell and user menu fell back to
+          the left beside the menu button. */}
+      <div className="ml-auto flex shrink-0 items-center gap-4">
+        <div className="hidden w-[340px] min-[980px]:block">{search}</div>
 
-      <Dropdown
-        trigger={['click']}
-        popupRender={() => (
-          <div className="w-[320px] rounded-ui border border-ui bg-surface p-2 shadow-lg">
-            {!notificationItems || notificationItems.length === 0 ? (
-              <p className="p-3 text-[12.5px] text-muted">No open alerts.</p>
-            ) : (
-              <>
-                <ul className="flex flex-col gap-1">
-                  {notificationItems.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        onClick={item.onClick}
-                        className={`flex w-full flex-col items-start gap-1 rounded-ui p-2 text-left hover:bg-app ${FOCUS_RING}`}
-                      >
-                        <span className="flex items-center gap-2">
-                          <StatusTag status={item.status} />
-                          <span className="text-[12.5px] font-medium text-ink">{item.label}</span>
-                        </span>
-                        <span className="text-[11.5px] text-muted">{item.sublabel}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {notificationOverflowCount ? (
-                  <p className="mt-1 border-t border-ui p-2 text-[11.5px] text-muted">
-                    +{notificationOverflowCount} more — open a project&apos;s Payment Alert tab to see all.
-                  </p>
-                ) : null}
-              </>
-            )}
-          </div>
-        )}
-      >
-        <button
-          type="button"
-          aria-label={hasUnreadNotifications ? 'Alerts (unread)' : 'Alerts'}
-          className={`relative grid h-[34px] w-[34px] shrink-0 place-items-center rounded-ui border border-ui text-muted hover:bg-app hover:text-text ${FOCUS_RING}`}
+        <Dropdown
+          trigger={['click']}
+          popupRender={() => (
+            <div className="w-[320px] rounded-ui border border-ui bg-surface p-2 shadow-lg">
+              {!notificationItems || notificationItems.length === 0 ? (
+                <p className="p-3 text-[12.5px] text-muted">No open alerts.</p>
+              ) : (
+                <>
+                  <ul className="flex flex-col gap-1">
+                    {notificationItems.map((item) => (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          onClick={item.onClick}
+                          className={`flex w-full flex-col items-start gap-1 rounded-ui p-2 text-left hover:bg-app ${FOCUS_RING}`}
+                        >
+                          <span className="flex items-center gap-2">
+                            <StatusTag status={item.status} />
+                            <span className="text-[12.5px] font-medium text-ink">{item.label}</span>
+                          </span>
+                          <span className="text-[11.5px] text-muted">{item.sublabel}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  {notificationOverflowCount ? (
+                    <p className="mt-1 border-t border-ui p-2 text-[11.5px] text-muted">
+                      +{notificationOverflowCount} more — open a project&apos;s Payment Alert tab to
+                      see all.
+                    </p>
+                  ) : null}
+                </>
+              )}
+            </div>
+          )}
         >
-          {hasUnreadNotifications ? (
-            <span aria-hidden="true" className="absolute right-[7px] top-[6px] h-[7px] w-[7px] rounded-full bg-negative ring-2 ring-surface" />
-          ) : null}
-          <BellIcon className="h-4 w-4" />
-        </button>
-      </Dropdown>
-
-      <Dropdown
-        menu={{
-          items: [{ key: 'logout', label: 'Sign out', onClick: onLogout }],
-        }}
-        trigger={['click']}
-      >
-        <button
-          type="button"
-          className={`flex shrink-0 items-center gap-[9px] rounded-ui py-1 pl-[6px] pr-2 hover:bg-app ${FOCUS_RING}`}
-          aria-label="User menu"
-          title={displayName ?? undefined}
-        >
-          {/* A plain badge: Ant Design's Avatar paints its own grey over the brand colours. */}
-          <span
-            aria-hidden="true"
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-soft font-display text-[12px] font-bold tracking-[.02em] text-brand ring-1 ring-brand/25"
+          <button
+            type="button"
+            aria-label={hasUnreadNotifications ? 'Alerts (unread)' : 'Alerts'}
+            className={`relative grid h-[34px] w-[34px] shrink-0 place-items-center rounded-ui border border-ui text-muted hover:bg-app hover:text-text ${FOCUS_RING}`}
           >
-            {initials}
-          </span>
-          <span className="hidden min-w-0 text-left leading-[1.2] min-[980px]:block">
-            <span className="block max-w-[180px] truncate whitespace-nowrap text-[13px] font-semibold text-text">{displayName ?? '—'}</span>
-            {roleLabel ? <span className="block max-w-[180px] truncate whitespace-nowrap text-[11px] text-muted">{roleLabel}</span> : null}
-          </span>
-          <ChevronDownIcon aria-hidden="true" className="hidden h-[14px] w-[14px] shrink-0 text-muted-2 min-[980px]:block" />
-        </button>
-      </Dropdown>
+            {hasUnreadNotifications ? (
+              <span
+                aria-hidden="true"
+                className="absolute right-[7px] top-[6px] h-[7px] w-[7px] rounded-full bg-negative ring-2 ring-surface"
+              />
+            ) : null}
+            <BellIcon className="h-4 w-4" />
+          </button>
+        </Dropdown>
+
+        <Dropdown
+          menu={{
+            items: [{ key: 'logout', label: 'Sign out', onClick: onLogout }],
+          }}
+          trigger={['click']}
+        >
+          <button
+            type="button"
+            className={`flex shrink-0 items-center gap-[9px] rounded-ui py-1 pl-[6px] pr-2 hover:bg-app ${FOCUS_RING}`}
+            aria-label="User menu"
+            title={displayName ?? undefined}
+          >
+            {/* A plain badge: Ant Design's Avatar paints its own grey over the brand colours. */}
+            <span
+              aria-hidden="true"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-soft font-display text-[12px] font-bold tracking-[.02em] text-brand ring-1 ring-brand/25"
+            >
+              {initials}
+            </span>
+            <span className="hidden min-w-0 text-left leading-[1.2] min-[980px]:block">
+              <span className="block max-w-[180px] truncate whitespace-nowrap text-[13px] font-semibold text-text">
+                {displayName ?? '—'}
+              </span>
+              {roleLabel ? (
+                <span className="block max-w-[180px] truncate whitespace-nowrap text-[11px] text-muted">
+                  {roleLabel}
+                </span>
+              ) : null}
+            </span>
+            <ChevronDownIcon
+              aria-hidden="true"
+              className="hidden h-[14px] w-[14px] shrink-0 text-muted-2 min-[980px]:block"
+            />
+          </button>
+        </Dropdown>
+      </div>
     </header>
   );
 }
